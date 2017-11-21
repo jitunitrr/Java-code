@@ -1,0 +1,83 @@
+import java.io.*;
+import java.util.Scanner;
+
+class GFG {
+    public boolean checkTrueFalse(){
+        return true;
+    }
+    public static  void truthTable(int n) {
+		int p = (int) Math.pow(2, n);
+		for (int i = 0; i < p; i++) {
+			for (int k = 0; k < n; k++) {
+				int v = i & 1 << n - 1 - k;
+				System.out.print(v == 0 ? "T" : "F");
+			}
+			System.out.println();
+		}
+	}
+	public static  boolean checkValue(int arr[],int n) {
+		for (int i = 0; i < arr.length; i++) {
+		    if(arr[i]!=n)
+		        return false;
+		}
+		return true;
+	}
+	public static void main (String[] args) {
+	    Scanner sc=new Scanner(System.in);
+		int n=sc.nextInt();
+		int m=sc.nextInt();
+		int ntotwo=(int)Math.pow(2, n);
+		int truthTableMatrix[][]=new int[ntotwo][n];
+		int bulbMatrix[][]=new int[m][2];
+		for (int i = 0; i <m; i++){
+			 bulbMatrix[i][0]=sc.nextInt();
+			 bulbMatrix[i][1]=sc.nextInt();
+		}
+		
+		for (int i = 0; i <ntotwo; i++)
+		       for (int j = 0; j <n; j++)
+		            truthTableMatrix[i][j]=0;
+		            
+        for (int i = 0; i < ntotwo; i++) {
+            String bin = Integer.toBinaryString(i);
+            while (bin.length() < n)
+                bin = "0" + bin;
+                for (int j = 0; j <n; j++) {
+                        if(bin.charAt(j)=='1')
+                            truthTableMatrix[i][j]=-(j+1);
+                        else
+                            truthTableMatrix[i][j]=(j+1);
+                }
+        }
+        boolean flag=true;
+        int flags[]=new int[m];
+        for (int i = 0; i <ntotwo; i++){
+                int arr[]=new int[n];
+		       for (int j = 0; j <n; j++){
+		            arr[j]=truthTableMatrix[i][j];
+		       }
+		       for (int k = 0; k <m; k++){
+		            if(!checkValue(arr,bulbMatrix[k][0]) && !checkValue(arr,bulbMatrix[k][1])){
+		               flags[k]=1;
+		            }
+		            else
+		            flags[k]=0;
+		       }
+		        for (int kk = 0; kk <m; kk++){
+		                if(flags[kk]==0){
+		                    flag=false;
+		                    break;
+		                }
+		        }
+		         if(flag)
+                        break;
+		       
+        } 
+         if(flag)
+             System.out.println("YES");
+        else
+             System.out.println("NO");
+       
+        
+	}
+}
